@@ -32,7 +32,14 @@ public class Application {
         handler.addServlet((new ServletHolder(new MessageServlet(te, daoUser, messagesService))), "/messages/*");
         handler.addServlet((new ServletHolder(new RegisterServlet(te))), "/register/*");
         handler.addServlet((new ServletHolder(new LoginServlet(te))), "/login/*");
-        Server server = new Server(8001);
+        int port;
+        try {
+            port = Integer.parseInt(System.getenv("PORT"));
+        } catch (NumberFormatException ex) {
+            port = 5000;
+        }
+        Server server = new Server(port);
+
         server.setHandler(handler);
         server.start();
         server.join();
